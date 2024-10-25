@@ -1,15 +1,12 @@
-import React from 'react';
+import Link from 'next/link'
 
-
-const Menu: React.FC = () => {
-  return (
-    <nav className="bg-gray-700 p-4 text-white">
-      <ul className="flex justify-center space-x-6">
-        <li>
-        </li>
-      </ul>
-    </nav>
-  );
-};
-
-export default Menu;
+export default function Menu() {
+    return (
+        <nav className='menu'>
+            <ul>
+                <li> <Link href="/">Home</Link> </li>
+                <li> <Link href="/integrantes">Integrantes</Link> </li>
+            </ul>
+        </nav>
+    )
+}
