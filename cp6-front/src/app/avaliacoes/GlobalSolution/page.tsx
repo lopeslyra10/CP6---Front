@@ -1,22 +1,26 @@
-import { useState } from 'react';
+"use client"
+import { FC } from 'react';
 
-function GlobalSolution() {
-  const [nota, setNota] = useState<number | null>(null);
+interface GlobalSolutionProps {
+  onChange: (value: number | null) => void;
+}
+
+const GlobalSolution: FC<GlobalSolutionProps> = ({ onChange }) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(event.target.value);
+    onChange(isNaN(value) ? null : value);
+  };
 
   return (
     <div>
-      <h2>Global Solution</h2>
-      <input
-        type="number"
-        value={nota ?? ''}
-        onChange={(e) => setNota(Number(e.target.value))}
-        placeholder="Insira a nota (0 a 100)"
-        max={100}
-        min={0}
+      <label>Global Solution:</label>
+      <input 
+        type="number" 
+        onChange={handleChange} 
+        placeholder="Digite a nota da Global Solution" 
       />
-      {nota !== null && <p>Nota: {nota}</p>}
     </div>
   );
-}
+};
 
 export default GlobalSolution;
