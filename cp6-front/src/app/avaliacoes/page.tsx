@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CheckPoints from '../avaliacoes/CheckPoints/page;
+import CheckPoints from '../avaliacoes/CheckPoints/page';
 import ChallengerSprints from '../avaliacoes/ChallengerSprint/page';
 import GlobalSolution from '../avaliacoes/GlobalSolution/page';
 
@@ -18,11 +18,11 @@ function MediaFinal() {
 
   return (
     <div>
-      <h1>Média Final</h1>
-      <CheckPoints onChange={(media) => setMediaCheckPoints(media)} />
-      <ChallengerSprints onChange={(nota) => setNotaChallenger(nota)} />
-      <GlobalSolution onChange={(nota) => setNotaGlobal(nota)} />
-      <p>Média Final: {calcularMediaFinal()}</p>
+    <h1>Média Final</h1>
+    <CheckPoints onChange={(media: number | null) => setMediaCheckPoints(media)} />
+    <ChallengerSprints onChange={(nota: number | null) => setNotaChallenger(nota)} />
+    <GlobalSolution onChange={(nota: number | null) => setNotaGlobal(nota)} />
+    <p>Média Final: {calcularMediaFinal()}</p>
     </div>
   );
 }

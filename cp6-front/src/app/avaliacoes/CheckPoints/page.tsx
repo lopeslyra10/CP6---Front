@@ -23,7 +23,7 @@ function CheckPoints() {
             novaNota[index] = Number(e.target.value);
             setNotas(novaNota);
           }}
-          placeholder={Nota ${index + 1}}
+          placeholder={`Nota ${index + 1}`}
           max={100}
           min={0}
         />
