@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Integrantes(){
-    document.title = "Integrantes";
     return(
         <div>
     <h1>Turma 1TDSPY</h1>
