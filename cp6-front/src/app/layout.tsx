@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Cabecalho from "./Components/Cabecalho/Cabecalho";
-import Rodape from "./Components/Rodape/Rodape";
+import Cabecalho from "../Components/Cabecalho/Cabecalho";
+import Rodape from "../Components/Rodape/Rodape";
 
 
 export const metadata: Metadata = {
