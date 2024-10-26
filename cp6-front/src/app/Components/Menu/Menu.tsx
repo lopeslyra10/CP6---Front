@@ -6,10 +6,10 @@ export default function Menu() {
             <ul>
                 <li> <Link href="/">Home</Link> </li>
                 <li> <Link href="/Integrantes">Integrantes</Link> </li>
-                <li> <Link href="/Avaliacoes/ChallengerSprint">Challenger Sprints</Link> </li>
-                <li> <Link href="/Avaliacoes/GlobalSolution">Global Solution</Link> </li>
-                <li> <Link href="/Avaliacoes/CheckPoints">CheckPoints</Link> </li>
-                <li> <Link href="/Avaliacoes/MediaFinal">Média Final</Link> </li>
+                <li> <Link href="/avaliacoes/ChallengerSprint">Challenger Sprints</Link> </li>
+                <li> <Link href="/avaliacoes/GlobalSolution">Global Solution</Link> </li>
+                <li> <Link href="/avaliacoes/CheckPoints">CheckPoints</Link> </li>
+                <li> <Link href="/avaliacoes/MediaFinal">Média Final</Link> </li>
             </ul>
         </nav>
     )
