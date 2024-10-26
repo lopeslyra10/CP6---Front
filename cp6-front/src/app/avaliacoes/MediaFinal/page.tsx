@@ -9,9 +9,9 @@ type Notas = {
 
 const MediaTabela: React.FC = () => {
   const [notas, setNotas] = useState<Notas>({
-    CheckPoints: [0, 0],
-    ChallengerSprints: [0, 0],
-    GlobalSolution: [0, 0],
+    CheckPoints: [0, 0, 0], // 3 notas para CheckPoints
+    ChallengerSprints: [0, 0, 0], // 3 notas para Challenger Sprints
+    GlobalSolution: [0, 0, 0], // 3 notas para Global Solution
   });
 
   const handleNotaChange = (disciplina: keyof Notas, index: number, value: string) => {
@@ -28,9 +28,17 @@ const MediaTabela: React.FC = () => {
     setNotas(updatedNotas);
   };
 
-  const calcularMedia = (notas: number[]) => {
-    const soma = notas.reduce((acc, curr) => acc + curr, 0);
-    return (soma / notas.length).toFixed(2);
+  const calcularMedia = () => {
+    const notasValidas = [
+      ...notas.CheckPoints.filter(nota => nota > 0),
+      ...notas.ChallengerSprints.filter(nota => nota > 0),
+      ...notas.GlobalSolution.filter(nota => nota > 0),
+    ]; // Junta todas as notas válidas
+
+    if (notasValidas.length === 0) return 'N/A'; // Se não houver notas válidas, retorna 'N/A'
+
+    const soma = notasValidas.reduce((acc, curr) => acc + curr, 0);
+    return (soma / notasValidas.length).toFixed(2); // Calcula a média
   };
 
   return (
@@ -42,14 +50,14 @@ const MediaTabela: React.FC = () => {
             <th className="border border-gray-300 p-2">Disciplina</th>
             <th className="border border-gray-300 p-2">Nota 1</th>
             <th className="border border-gray-300 p-2">Nota 2</th>
-            <th className="border border-gray-300 p-2">Média</th>
+            <th className="border border-gray-300 p-2">Nota 3</th>
           </tr>
         </thead>
         <tbody>
           {Object.keys(notas).map((disciplina) => (
             <tr key={disciplina}>
               <td className="border border-gray-300 p-2">{disciplina}</td>
-              {[0, 1].map((index) => (
+              {[0, 1, 2].map((index) => (
                 <td key={index} className="border border-gray-300 p-2">
                   <input
                     type="number"
@@ -62,13 +70,14 @@ const MediaTabela: React.FC = () => {
                   />
                 </td>
               ))}
-              <td className="border border-gray-300 p-2">
-                {calcularMedia(notas[disciplina as keyof Notas])}
-              </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <div className="mt-4">
+        <h2 className="text-xl font-bold">Média Geral:</h2>
+        <p className="text-lg">{calcularMedia()}</p>
+      </div>
     </div>
   );
 };

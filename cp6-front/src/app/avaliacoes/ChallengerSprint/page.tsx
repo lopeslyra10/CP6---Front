@@ -12,12 +12,12 @@ interface Notas {
 
 const TabelaCursos: React.FC = () => {
   const [notas, setNotas] = useState<Notas>({
-    FrontEnd: [0, 0],
-    Java: [0, 0],
-    Python: [0, 0],
-    BancoDeDados: [0, 0],
-    Chatbot: [0, 0],
-    BusinessModel: [0, 0],
+    FrontEnd: [0, 0, 0, 0],  
+    Java: [0, 0, 0, 0],
+    Python: [0, 0, 0, 0],
+    BancoDeDados: [0, 0, 0, 0],
+    Chatbot: [0, 0, 0, 0],
+    BusinessModel: [0, 0, 0, 0],
   });
 
   const handleNotaChange = (curso: keyof Notas, index: number, value: string) => {
@@ -25,18 +25,21 @@ const TabelaCursos: React.FC = () => {
     const nota = parseFloat(value);
     
     // Verifica se a nota está entre 0 e 100
-    if (nota >= 0 && nota <= 100) {
-      updatedNotas[curso][index] = nota; // Atualiza a nota
-    } else if (value === '') {
+    if (value === '') {
       updatedNotas[curso][index] = 0; // Reseta a nota se o campo estiver vazio
+    } else if (nota >= 0 && nota <= 100) {
+      updatedNotas[curso][index] = nota; // Atualiza a nota
     }
 
     setNotas(updatedNotas);
   };
 
-  const calcularMedia = (curso: keyof Notas): number => {
+  const calcularMedia = (curso: keyof Notas): string => {
     const total = notas[curso].reduce((acc, nota) => acc + nota, 0);
-    return total / notas[curso].length;
+    const media = total / notas[curso].length;
+
+    // Verifica se a média é um número válido antes de formatar
+    return isNaN(media) || media === 0 ? 'N/A' : media.toFixed(2);
   };
 
   return (
@@ -46,8 +49,10 @@ const TabelaCursos: React.FC = () => {
         <thead>
           <tr className="bg-gray-200">
             <th className="border border-gray-300 p-2">Curso</th>
-            <th className="border border-gray-300 p-2">Semestre 1</th>
-            <th className="border border-gray-300 p-2">Semestre 2</th>
+            <th className="border border-gray-300 p-2">Semestre 1 - Nota 1</th>
+            <th className="border border-gray-300 p-2">Semestre 1 - Nota 2</th>
+            <th className="border border-gray-300 p-2">Semestre 2 - Nota 1</th>
+            <th className="border border-gray-300 p-2">Semestre 2 - Nota 2</th>
             <th className="border border-gray-300 p-2">Média</th>
           </tr>
         </thead>
@@ -55,7 +60,7 @@ const TabelaCursos: React.FC = () => {
           {Object.keys(notas).map((curso) => (
             <tr key={curso}>
               <td className="border border-gray-300 p-2">{curso}</td>
-              {[0, 1].map((index) => (
+              {[0, 1, 2, 3].map((index) => (
                 <td key={index} className="border border-gray-300 p-2">
                   <input
                     type="number"
@@ -69,7 +74,7 @@ const TabelaCursos: React.FC = () => {
                 </td>
               ))}
               <td className="border border-gray-300 p-2">
-                {calcularMedia(curso as keyof Notas).toFixed(2)}
+                {calcularMedia(curso as keyof Notas)}
               </td>
             </tr>
           ))}
