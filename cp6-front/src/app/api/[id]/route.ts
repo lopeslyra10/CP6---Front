@@ -1,19 +1,27 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
 let assessments = [
   { id: 1, title: "Avaliação 1", category: "checkpoints", date: "2023-05-01", grade: 85, feedback: "Bom trabalho!" },
+  { id: 2, title: "Avaliação 2", category: "globalsolution", date: "2023-06-01", grade: 90, feedback: "Excelente!" }
 ];
 
-
-export async function GET(req: NextRequest, { params }: { params: { id?: string } }) {
-  if (params.id) {
-    const assessment = assessments.find((a) => a.id === parseInt(params.id as string));
-    return assessment
-      ? NextResponse.json(assessment)
-      : NextResponse.json({ message: "Avaliação não encontrada" }, { status: 404 });
+export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+  const id = parseInt(params.id, 10);
+  
+  if (isNaN(id)) {
+    return NextResponse.json({ error: "ID inválido" }, { status: 400 });
   }
-  return NextResponse.json(assessments);
+  
+  const assessment = assessments.find((a) => a.id === id);
+  if (assessment) {
+    return NextResponse.json(assessment, { status: 200 });
+  } else {
+    return NextResponse.json({ message: "Avaliação não encontrada" }, { status: 404 });
+  }
 }
+
+// Implementação para outros métodos, como POST, DELETE, etc. (caso necessários)
+
 
 
 export async function POST(req: NextRequest) {
