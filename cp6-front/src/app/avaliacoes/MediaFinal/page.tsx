@@ -9,29 +9,29 @@ type Notas = {
 
 const MediaTabela: React.FC = () => {
   const [notas, setNotas] = useState<Notas>({
-    CheckPoints: null, // Uma nota para CheckPoints
-    ChallengerSprints: null, // Uma nota para Challenger Sprints
-    GlobalSolution: null, // Uma nota para Global Solution
+    CheckPoints: null, 
+    ChallengerSprints: null, 
+    GlobalSolution: null, 
   });
 
   const handleNotaChange = (disciplina: keyof Notas, value: string) => {
     const nota = parseFloat(value);
 
-    // Atualiza a nota se o valor estiver entre 0 e 100
+    
     if (nota >= 0 && nota <= 100) {
       setNotas((prevNotas) => ({ ...prevNotas, [disciplina]: nota }));
     } else if (value === '') {
-      setNotas((prevNotas) => ({ ...prevNotas, [disciplina]: null })); // Reseta a nota se o campo estiver vazio
+      setNotas((prevNotas) => ({ ...prevNotas, [disciplina]: null })); 
     }
   };
 
   const calcularMedia = () => {
-    const notasValidas = Object.values(notas).filter(nota => nota !== null) as number[]; // Junta todas as notas válidas
+    const notasValidas = Object.values(notas).filter(nota => nota !== null) as number[]; 
 
-    if (notasValidas.length === 0) return 'N/A'; // Se não houver notas válidas, retorna 'N/A'
+    if (notasValidas.length === 0) return 'N/A'; 
 
     const soma = notasValidas.reduce((acc, curr) => acc + curr, 0);
-    return (soma / notasValidas.length).toFixed(2); // Calcula a média
+    return (soma / notasValidas.length).toFixed(2);
   };
 return (
     <div className="overflow-x-auto">
@@ -50,7 +50,7 @@ return (
               <td className="border border-gray-300 p-2">
                 <input
                   type="number"
-                  value={notas[disciplina as keyof Notas] ?? ''} // Garantindo que o valor não seja null
+                  value={notas[disciplina as keyof Notas] ?? ''} 
                   onChange={(e) => handleNotaChange(disciplina as keyof Notas, e.target.value)}
                   className="border border-gray-400 p-1 rounded w-full"
                   placeholder="0-100"

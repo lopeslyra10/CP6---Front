@@ -1,4 +1,4 @@
-"use client"; // Adicione esta linha se necessário
+"use client"; 
 
 import { useState } from 'react';
 
@@ -12,7 +12,7 @@ type Notas = {
 };
 
 const TabelaCursos = () => {
-  // Estado para armazenar as notas dos cursos
+ 
   const [notas, setNotas] = useState<Notas>({
     FrontEnd: [0, 0, 0],
     Java: [0, 0, 0],
@@ -26,11 +26,11 @@ const TabelaCursos = () => {
     const updatedNotas = { ...notas };
     const nota = parseFloat(value);
     
-    // Verifica se a nota está entre 0 e 10
+   
     if (nota >= 0 && nota <= 10) {
-      updatedNotas[curso][index] = nota; // Atualiza a nota
+      updatedNotas[curso][index] = nota; 
     } else if (value === '') {
-      updatedNotas[curso][index] = 0; // Reseta a nota se o campo estiver vazio
+      updatedNotas[curso][index] = 0; 
     }
 
     setNotas(updatedNotas);

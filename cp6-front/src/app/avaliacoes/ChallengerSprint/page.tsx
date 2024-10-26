@@ -1,4 +1,4 @@
-"use client"; // Adicione esta linha se necessário
+"use client"; 
 import { useState } from 'react';
 
 interface Notas {
@@ -24,11 +24,11 @@ const TabelaCursos: React.FC = () => {
     const updatedNotas = { ...notas };
     const nota = parseFloat(value);
     
-    // Verifica se a nota está entre 0 e 100
+  
     if (value === '') {
-      updatedNotas[curso][index] = 0; // Reseta a nota se o campo estiver vazio
+      updatedNotas[curso][index] = 0; 
     } else if (nota >= 0 && nota <= 100) {
-      updatedNotas[curso][index] = nota; // Atualiza a nota
+      updatedNotas[curso][index] = nota;
     }
 
     setNotas(updatedNotas);
@@ -38,7 +38,7 @@ const TabelaCursos: React.FC = () => {
     const total = notas[curso].reduce((acc, nota) => acc + nota, 0);
     const media = total / notas[curso].length;
 
-    // Verifica se a média é um número válido antes de formatar
+    
     return isNaN(media) || media === 0 ? 'N/A' : media.toFixed(2);
   };
 

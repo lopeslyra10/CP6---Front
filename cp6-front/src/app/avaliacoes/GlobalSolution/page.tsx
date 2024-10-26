@@ -1,4 +1,4 @@
-"use client"; // Adicione esta linha se necessário
+"use client"; 
 import { useState } from 'react';
 
 type Notas = {
@@ -23,7 +23,7 @@ const TabelaCursos: React.FC = () => {
   const handleNotaChange = (curso: keyof Notas, value: string) => {
     const nota = parseFloat(value);
 
-    // Atualiza a nota se o valor estiver entre 0 e 100
+
     setNotas((prevNotas) => ({
       ...prevNotas,
       [curso]: nota >= 0 && nota <= 100 ? nota : null,
@@ -53,7 +53,7 @@ const TabelaCursos: React.FC = () => {
               <td className="border border-gray-300 p-2">
                 <input
                   type="number"
-                  value={notas[curso as keyof Notas] ?? ''} // Garantindo que o valor não seja null
+                  value={notas[curso as keyof Notas] ?? ''} 
                   onChange={(e) => handleNotaChange(curso as keyof Notas, e.target.value)}
                   className="border border-gray-400 p-1 rounded w-full"
                   placeholder="0-100"

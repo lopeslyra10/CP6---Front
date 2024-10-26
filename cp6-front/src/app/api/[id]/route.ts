@@ -1,50 +1,50 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
 let assessments = [
   { id: 1, title: "Avaliação 1", category: "checkpoints", date: "2023-05-01", grade: 85, feedback: "Bom trabalho!" },
 ];
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { method } = req;
-  const { id } = req.query;
 
-  switch (method) {
-    case "GET":
-      if (id) {
-        const assessment = assessments.find(a => a.id === parseInt(id as string));
-        if (assessment) {
-          res.status(200).json(assessment);
-        } else {
-          res.status(404).json({ message: "Avaliação não encontrada" });
-        }
-      } else {
-        res.status(200).json(assessments);
-      }
-      break;
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+  const { id } = params;
+  if (id) {
+    const assessment = assessments.find(a => a.id === parseInt(id));
+    return assessment ? NextResponse.json(assessment) : NextResponse.json({ message: "Avaliação não encontrada" }, { status: 404 });
+  } else {
+    return NextResponse.json(assessments);
+  }
+}
 
-    case "POST":
-      const newAssessment = { id: Date.now(), ...req.body };
-      assessments.push(newAssessment);
-      res.status(201).json(newAssessment);
-      break;
 
-    case "PUT":
-      const updatedAssessment = assessments.find(a => a.id === parseInt(id as string));
-      if (updatedAssessment) {
-        Object.assign(updatedAssessment, req.body); // Atualiza a avaliação com os novos dados
-        res.status(200).json(updatedAssessment);
-      } else {
-        res.status(404).json({ message: "Avaliação não encontrada" });
-      }
-      break;
+export async function POST(req: NextRequest) {
+  const newAssessment = await req.json();
+  newAssessment.id = Date.now();
+  assessments.push(newAssessment);
+  return NextResponse.json(newAssessment, { status: 201 });
+}
 
-    case "DELETE":
-      assessments = assessments.filter(a => a.id !== parseInt(id as string));
-      res.status(204).end();
-      break;
 
-    default:
-      res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
-      res.status(405).end(` Método${method} não permitido`);
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+  const { id } = params;
+  const updatedData = await req.json();
+  const index = assessments.findIndex(a => a.id === parseInt(id));
+
+  if (index !== -1) {
+    assessments[index] = { ...assessments[index], ...updatedData };
+    return NextResponse.json(assessments[index]);
+  } else {
+    return NextResponse.json({ message: "Avaliação não encontrada" }, { status: 404 });
+  }
+}
+
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+  const { id } = params;
+  const initialLength = assessments.length;
+  assessments = assessments.filter(a => a.id !== parseInt(id));
+
+  if (assessments.length < initialLength) {
+    return NextResponse.json({ message: "Avaliação excluída" }, { status: 204 });
+  } else {
+    return NextResponse.json({ message: "Avaliação não encontrada" }, { status: 404 });
   }
 }
