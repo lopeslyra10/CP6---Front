@@ -6,28 +6,14 @@ let assessments = [
 
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
-  if (id) {
-    const assessment = assessments.find(a => a.id === parseInt(id));
-    return assessment ? NextResponse.json(assessment) : NextResponse.json({ message: "Avaliação não encontrada" }, { status: 404 });
-  } else {
-    return NextResponse.json(assessments);
-  }
-}
-
-
-export async function POST(req: NextRequest) {
-  const newAssessment = await req.json();
-  newAssessment.id = Date.now();
-  assessments.push(newAssessment);
-  return NextResponse.json(newAssessment, { status: 201 });
+  const assessment = assessments.find(a => a.id === parseInt(params.id));
+  return assessment ? NextResponse.json(assessment) : NextResponse.json({ message: "Avaliação não encontrada" }, { status: 404 });
 }
 
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
   const updatedData = await req.json();
-  const index = assessments.findIndex(a => a.id === parseInt(id));
+  const index = assessments.findIndex(a => a.id === parseInt(params.id));
 
   if (index !== -1) {
     assessments[index] = { ...assessments[index], ...updatedData };
@@ -37,10 +23,10 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
+
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
   const initialLength = assessments.length;
-  assessments = assessments.filter(a => a.id !== parseInt(id));
+  assessments = assessments.filter(a => a.id !== parseInt(params.id));
 
   if (assessments.length < initialLength) {
     return NextResponse.json({ message: "Avaliação excluída" }, { status: 204 });
