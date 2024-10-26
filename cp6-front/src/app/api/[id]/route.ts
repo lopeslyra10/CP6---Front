@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 let assessments = [
   { id: 1, title: "Avaliação 1", category: "checkpoints", date: "2023-05-01", grade: 85, feedback: "Bom trabalho!" },
-  // ... outras avaliações
 ];
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -29,13 +28,23 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       res.status(201).json(newAssessment);
       break;
 
+    case "PUT":
+      const updatedAssessment = assessments.find(a => a.id === parseInt(id as string));
+      if (updatedAssessment) {
+        Object.assign(updatedAssessment, req.body); // Atualiza a avaliação com os novos dados
+        res.status(200).json(updatedAssessment);
+      } else {
+        res.status(404).json({ message: "Avaliação não encontrada" });
+      }
+      break;
+
     case "DELETE":
       assessments = assessments.filter(a => a.id !== parseInt(id as string));
       res.status(204).end();
       break;
 
     default:
-      res.setHeader("Allow", ["GET", "POST", "DELETE"]);
-      res.status(405).end(`Método ${method} não permitido`);
+      res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
+      res.status(405).end(` Método${method} não permitido`);
   }
 }
