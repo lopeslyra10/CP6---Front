@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 import { useState } from 'react';
 
 type Notas = {
@@ -23,7 +23,6 @@ const TabelaCursos: React.FC = () => {
   const handleNotaChange = (curso: keyof Notas, value: string) => {
     const nota = parseFloat(value);
 
-
     setNotas((prevNotas) => ({
       ...prevNotas,
       [curso]: nota >= 0 && nota <= 100 ? nota : null,
@@ -37,36 +36,40 @@ const TabelaCursos: React.FC = () => {
   };
 
   return (
-    <div className="overflow-x-auto">
-      <h1 className="text-2xl font-bold mb-4">Tabela de Notas dos Cursos</h1>
-      <table className="min-w-full border border-gray-300">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border border-gray-300 p-2">Curso</th>
-            <th className="border border-gray-300 p-2">Nota</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.keys(notas).map((curso) => (
-            <tr key={curso}>
-              <td className="border border-gray-300 p-2">{curso}</td>
-              <td className="border border-gray-300 p-2">
-                <input
-                  type="number"
-                  value={notas[curso as keyof Notas] ?? ''} 
-                  onChange={(e) => handleNotaChange(curso as keyof Notas, e.target.value)}
-                  className="border border-gray-400 p-1 rounded w-full"
-                  placeholder="0-100"
-                  min="0"
-                  max="100"
-                />
-              </td>
+    <div className="flex flex-col items-center p-6 bg-gray-100">
+      <h1 className="text-2xl font-bold mb-6 text-gray-800">Tabela de Notas dos Cursos</h1>
+      <div className="overflow-x-auto w-full lg:w-3/4">
+        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+          <thead>
+            <tr className="bg-gray-800 text-white text-left">
+              <th className="p-4 text-center">Curso</th>
+              <th className="p-4 text-center">Nota</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="mt-4">
-        <h2 className="text-xl font-bold">Média das Notas: {calcularMedia()}</h2>
+          </thead>
+          <tbody>
+            {Object.keys(notas).map((curso) => (
+              <tr key={curso} className="border-b border-gray-300">
+                <td className="p-4 text-center font-semibold">{curso}</td>
+                <td className="p-4 text-center">
+                  <input
+                    type="number"
+                    value={notas[curso as keyof Notas] ?? ''} 
+                    onChange={(e) => handleNotaChange(curso as keyof Notas, e.target.value)}
+                    className="border border-gray-300 p-2 rounded w-full text-center"
+                    placeholder="0-100"
+                    min="0"
+                    max="100"
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="mt-8 w-full lg:w-3/4">
+        <h2 className="text-xl font-semibold text-gray-700 text-center">
+          Média das Notas: {calcularMedia()}
+        </h2>
       </div>
     </div>
   );
